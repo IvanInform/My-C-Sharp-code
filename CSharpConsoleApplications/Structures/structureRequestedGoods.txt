@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication3
+{/*Описать структуру Request содержащую поля: код
+заказа; клиент; дата заказа; перечень заказанных товаров;
+сумма заказа (реализовать вычисляемым свойством).*/
+    class Program
+    {
+        public struct Client
+        {
+            public string first_name;
+            public string second_name;
+            public string address;
+            public string phone;
+            public Client(string name, string second_name, string address, string phone)
+            {
+                this.first_name = name;
+                this.second_name = second_name;
+                this.address = address;
+                this.phone = phone;
+            }
+            public void print() {
+                Console.WriteLine("FIO: {0}, {1}\n Address: {2}\nPhone: {3}", first_name, second_name, address, phone);
+           }
+        }
+        public struct Product
+        {
+            public string code;
+            public string name;
+            public double price;
+            public Product(string code, string name, double price)
+            {
+                this.code = code;
+                this.name = name;
+                this.price = price;
+            }
+            public void print() {
+                Console.WriteLine("Product: {0}, {1}, {2}", code, name, price);
+            }
+        }
+        struct Request
+        {
+            /*заказа; клиент; дата заказа; перечень заказанных товаров;
+  сумма заказа*/
+            public string request_code;
+            public Client client;
+            public DateTime order_date;
+            public Product[] product_list;
+            public double amount;
+            public Request(string request_code, Client _client, DateTime _datetime, Product[] list)
+            {
+                this.request_code = request_code;
+                this.client = _client;
+                this.order_date = _datetime;
+                this.product_list = list;
+                double sum = 0;
+                foreach (Product x in product_list)
+                {
+                    sum += x.price;
+                }
+                this.amount = sum;
+            }
+            public void print()
+            {
+                client.print();
+                Console.WriteLine("Order date: {0}", order_date.ToLongDateString());
+                for (int i = 0; i < product_list.Length; i++)
+                {
+                    product_list[i].print();
+                }
+                Console.WriteLine("Total amount: {0}", amount);
+
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Product [] prodList=new Product[3]{new Product("ID1", "tv-set", 150.00), new Product ("ID2", "microwave", 99.00), 
+            new Product("ID3", "washing-machine", 200.00)};
+            Request myrequest = new Request("acd1002", new Client("Ivan", "Ivanov","Zaporozhye, Lenina, 100A", "555-333"),
+                new DateTime(2017, 10, 30), prodList);
+            myrequest.print();
+
+        }
+    }
+}

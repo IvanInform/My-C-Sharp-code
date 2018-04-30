@@ -1,0 +1,64 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication3
+{/*Описать перечисление ClientType определяющее
+важность клиента, и добавить соответствующее поле
+в структуру Client из задания №2.*/
+    class Program
+    {
+        public enum ArticleType : int {internal_client, existing, prospective, broad_market}
+        public struct FIO{
+        public string first_name;
+            public string last_name;
+            public string sur_name;
+           public FIO(string first_name,string last_name, string sur_name){
+           this.first_name=first_name;
+               this.last_name=last_name;
+               this.sur_name=sur_name;
+           }
+        }
+        struct Client
+        {
+            public string client_code;
+            public FIO fio;
+            public string address;
+            public string phone;
+            public int order_number;
+            public long sum;
+            public ArticleType type;
+            public Client(string client_code, FIO fio, string address, string phone, int order_number,
+                int sum, ArticleType type)
+            {
+                this.client_code = client_code;
+                this.fio = fio;
+                this.address = address;
+                this.phone = phone;
+                this.order_number = order_number;
+                this.sum = sum;
+                this.type = type;
+            }
+            public void print()
+            {
+                Console.WriteLine("Client code: {0}\nFIO: {1}, {2}, {3}", client_code, fio.first_name, fio.last_name, fio.sur_name);
+                Console.WriteLine("\nAddress: {0}\nPhone: {1}\nOrder number: {2}\n Sum of orders: {3}",
+                address, phone, order_number, sum);
+                Console.WriteLine("Client type: {0}", Enum.Format(typeof(ArticleType), type, "G"));
+            }
+        }
+        
+
+        static void Main(string[] args)
+        {
+
+           Client Ivan=new Client("001", new FIO("Ivan", "Ivanovich", "Ivanov"),
+               "Zaporozhye, Pushkina, 100","55-335", 3, 10, ArticleType.existing );
+            Ivan.print();
+
+        }
+    }
+}
+    

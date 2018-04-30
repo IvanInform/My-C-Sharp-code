@@ -1,0 +1,101 @@
+Сначала создаем .dll библиотеку в с++ заходим с с++ создаем проект win32 и в 
+визарде отмечаем dll вместо application 
+создаем файл в папке headers
+файл myDll.h
+
+#pragma once
+
+#include "Windows.h"
+
+extern "C"
+{
+	__declspec(dllexport) int __stdcall getHeight();
+	__declspec(dllexport) int __stdcall getWidth();
+	
+}
+создаем файл в папке source
+файл myDll.cpp
+#include "Windows.h"
+#include "myDLL.h"
+
+__declspec(dllexport)
+int __stdcall getHeight()
+{
+	HDC screen = GetDC(NULL);
+		int hSize = GetDeviceCaps(screen, VERTSIZE);
+		return hSize;
+}
+
+__declspec(dllexport)
+int __stdcall getWidth()
+{
+	HDC screen = GetDC(NULL);
+		int hSize = GetDeviceCaps(screen, HORZSIZE);
+		return hSize;
+}
+
+Компилируем эти файлы Запоминаем как называется проект и где находиться. У тебя будет 
+по другому--поэтому поставь свои данные в строку @"адресс.dll"
+
+далее создаем классы уже в c# 
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Text.RegularExpressions;
+
+namespace Streams_example
+{
+   public class DLLImport
+{
+ [DllImport(@"G:\ASPnetWebSite\ScreenProject\Debug\ScreenProject.dll", EntryPoint ="getHeight", CallingConvention =CallingConvention.StdCall)]
+        public static extern int getHeight();
+
+        [DllImport(@"G:\ASPnetWebSite\ScreenProject\Debug\ScreenProject.dll", EntryPoint = "getWidth", CallingConvention = CallingConvention.StdCall)]
+        public static extern int getWidth();
+          
+           //IntPtr pTestClass = CreateMyDLL();
+       public static void printScreen(){
+           int height = DLLImport.getHeight();
+           int width = DLLImport.getWidth();
+           Console.WriteLine("Screen Width in mm: {0}\n Height in mm: {1}", width, height);
+           Console.WriteLine("\nScreen Width in inches: {0}\n Screen Height in inches: {1}",
+              Math.Round((width / 25.4),2), Math.Round((height / 25.4), 2));
+       }
+           
+       }
+   }
+
+И далее главный класс с main():
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+using System.Diagnostics;
+
+
+
+namespace Streams_example
+{
+    class Program
+    {
+       
+        
+
+        static void Main(string[] args)
+        {  
+		DLLImport.printScreen();
+
+        }
+    }
+}
+

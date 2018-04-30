@@ -1,0 +1,243 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace exception
+{
+    public class money {
+       private int hryvna;
+       public int Hryvna {
+           get { return hryvna; }
+           set { hryvna = value; }
+       }
+       private int kopeks;
+       public int Kopeks {
+           get { return kopeks; }
+           set { kopeks = value; }
+       }
+       public money() {       
+          }
+       public money(int n, int m) {
+           if (n <= 0 && m < 0||n<0&&m<=0) {
+               this.hryvna = 0;
+               this.kopeks = 0;
+               throw new MyException("Error. Money class has negative value. Bankruptsy");
+           }
+           this.hryvna = n;
+           this.kopeks = m;
+           if (kopeks>=100){
+               int temp=kopeks/100;
+           this.kopeks=kopeks%100;
+               this.hryvna+=temp;
+              }
+           if (m < 0 && n > 0) {
+               this.hryvna -= 1;
+               this.kopeks = 100+m;
+                          
+           }
+           if (n < 0) {this.hryvna = 0; this.kopeks = 0;
+           throw new MyException("Error. Money class has negative value. Bankruptsy");
+                      }
+       }
+       public static money operator --(money s) {
+          if (s.Kopeks>0)
+          {s.Kopeks--;}
+          else if (s.Kopeks == 0 && s.Hryvna > 0)
+          {
+              s.Hryvna -= 1;
+              s.Kopeks += 100;
+              s.Kopeks--;
+          }
+          else { throw new MyException("Error. Money class has negative value.Bankrupt"); }
+          return s;
+       }
+public static money operator++(money s){
+if (s.Kopeks==99){
+s.Kopeks=0;
+    s.Hryvna+=1;
+}
+else {s.Kopeks++;}
+    return s;
+}
+ public static money operator +(money v1, money v2){
+     return  new money ( v1.Hryvna + v2.Hryvna,  v1.Kopeks + v2.Kopeks);
+        
+    }
+ public static money operator *(money v, int n) {
+     v.Hryvna *= n;
+     v.Kopeks *= n;
+     return new money(v.Hryvna, v.Kopeks);
+ 
+ }
+ public static money operator /(money v, int n)
+ {
+     v.Hryvna /= n;
+     v.Kopeks /= n;
+     return new money(v.Hryvna, v.Kopeks);
+
+ }
+
+
+        public static money operator -(money v1, money v2){
+            return new money ( v1.Hryvna - v2.Hryvna, v1.kopeks - v2.Kopeks);
+        
+        }
+        public override string ToString() {
+            return String.Format("Hryvna: {0} Kopeks: {1}", this.hryvna, this.kopeks);
+        }
+        public override bool Equals(object obj)
+        {
+            return this.ToString() == obj.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+        public static bool operator ==(money p1, money p2) {
+            return p1.Equals(p2);
+        }
+        public static bool operator !=(money p1, money p2)
+        {
+            return !p1.Equals(p2);
+        }
+        public static bool operator >(money p1, money p2) {
+            if (p1.Hryvna > p2.Hryvna) { return true; }
+            else if (p1.Hryvna == p2.Hryvna && p1.Kopeks > p2.Kopeks) { return true; }
+            else { return false; }
+        }
+        public static bool operator <(money p1, money p2) {
+            if (p1.Hryvna < p2.Hryvna) { return true; }
+            else if (p1.Hryvna == p2.Hryvna && p1.Kopeks < p2.Kopeks) { return true; }
+            else { return false; }
+        }
+
+    }
+    
+   [Serializable]
+public class MyException : Exception
+{
+       public DateTime TimeException { get; private set; }
+
+       public MyException() : this("My Exception") { TimeException = DateTime.Now; }
+         public MyException( string message ) : base( message ) { }
+  public MyException( string message, Exception inner ) : base( message, inner ) { }
+  protected MyException( 
+	System.Runtime.Serialization.SerializationInfo info, 
+	System.Runtime.Serialization.StreamingContext context ) : base( info, context ) { }
+}
+   public class Program
+   {
+
+       static void Main(string[] args)
+       {
+          
+           Console.WriteLine("Please enter amounts of two money:");
+           Console.WriteLine("Money one:");
+           int h = 0;
+           int g = 0;
+           try
+           {
+               h = int.Parse(Console.ReadLine());
+               g = int.Parse(Console.ReadLine());
+           }
+           catch (FormatException e) { Console.WriteLine(e.Message); }
+           money one=null;
+           try {one=new money(h,g);}catch(Exception e){Console.WriteLine(e.Message);}
+           Console.WriteLine("Money two:");
+           int h2 = 0;
+           int g2 = 0;
+           try
+           {
+               h2 = int.Parse(Console.ReadLine());
+               g2 = int.Parse(Console.ReadLine());
+           }
+           catch (FormatException e) { Console.WriteLine(e.Message); }
+           money two=null;
+            try { two =new money(h2,g2);}catch(Exception e){Console.WriteLine(e.Message);}
+          
+           Console.WriteLine("Menu: ");
+           Console.WriteLine("Choose operation: \n <1> unary ++ <2> unary -- <3> operator <+> <4> operator <->");
+           Console.WriteLine("<5> operator <*> <6> operator </> <7> operator <==> <8> operator <!=>");
+           Console.WriteLine("<9> operator < > > <10> operator < < > \nPress <0> to end!");
+           int choice = 0;
+           try{
+           choice=int.Parse(Console.ReadLine());
+           }catch(FormatException e){Console.WriteLine(e.Message);}
+           money temp=new money();
+           while (true)
+           {
+               if (choice == 0) { break; }
+               switch (choice)
+               {
+                   case 1:
+                       one++; two++;
+                       Console.WriteLine(one);
+                       Console.WriteLine(two);
+                       break;
+                   case 2:
+                       try
+                       {
+                           one--; two--;
+                       }
+                       catch (Exception e) { Console.WriteLine(e.Message); }
+                       Console.WriteLine(one);
+                       Console.WriteLine(two);
+                       break;
+                   case 3:
+                       temp = one + two;
+                       Console.WriteLine("result: {0}", temp);
+                       break;
+                   case 4:
+                       try
+                       {
+                           temp = one - two;
+                           Console.WriteLine("result: {0}", temp);
+                       }
+                       catch (Exception e)
+                       {
+                           Console.WriteLine(e.Message);
+
+                       }
+                       break;
+                   case 5:
+                       temp = one * 2; Console.WriteLine("result: {0}", temp);
+                       temp = two * 2;
+                       Console.WriteLine("result: {0}", temp);
+                       break;
+                   case 6:
+                       temp = one / 2; Console.WriteLine("result: {0}", temp);
+                       temp = two / 2;
+                       Console.WriteLine("result: {0}", temp);
+                       break;
+                   case 7:
+                       Console.WriteLine(one == two);
+                       break;
+                   case 8:
+                       Console.WriteLine(one != two);
+                       break;
+                   case 9:
+                       Console.WriteLine(one > two);
+                       break;
+                   case 10:
+                       Console.WriteLine(one < two);
+                       break;
+                   default:
+                       Console.WriteLine("Wrong choice");
+                       break;
+               }
+               try
+               {
+                   choice = int.Parse(Console.ReadLine());
+               }
+               catch (FormatException e) { Console.WriteLine(e.Message); }
+           }
+           Console.ReadKey();
+           }
+
+           
+           
+       }
+   }
+

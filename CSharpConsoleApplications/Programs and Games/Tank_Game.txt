@@ -1,0 +1,214 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Overloading_operators
+{
+    class tank
+    {
+        protected string name;
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        protected int ammunition;
+        public int Ammunition
+        {
+            get { return ammunition; }
+            set { ammunition = value; }
+        }
+        protected int armour;
+        public int Armour
+        {
+            get { return armour; }
+            set { armour = value; }
+        }
+        protected int maneuverability;
+        public int Maneuverability
+        {
+            get { return maneuverability; }
+            set { maneuverability = value; }
+        }
+        public tank()
+        {
+            name = "";
+            Random myrand = new Random();
+            ammunition = myrand.Next(1,10);
+            armour = myrand.Next(1,20);
+            maneuverability = myrand.Next(1,5);
+        }
+        public tank(string name, int i, int j, int g)
+        {
+            this.name = name;
+            ammunition = i;
+            armour = j;
+            maneuverability = g;
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Tank name: {0}, ammunition {1}, armour {2}, maneuverability {3}", name,
+                ammunition, armour, maneuverability);
+        }
+        public override bool Equals(object obj)
+        {
+            return this.ToString() == obj.ToString();
+        }
+        public override int GetHashCode()
+        {
+            return this.ToString().GetHashCode();
+        }
+        public static bool operator ==(tank p1, tank p2)
+        {
+            return p1.Equals(p2);
+        }
+        public static bool operator !=(tank p1, tank p2)
+        {
+            return !(p1 == p2);
+        }
+        public static bool operator >(tank p1, tank p2)
+        {
+            if ((p1.Ammunition > p2.Ammunition) && (p1.Armour > p2.Armour)) { return true; }
+            else if ((p1.Ammunition > p2.Ammunition) && (p1.Maneuverability > p2.Maneuverability)) { return true; }
+            else if ((p1.Armour > p2.Armour) && (p1.Maneuverability > p2.Maneuverability)) { return true; }
+            else { return false; }
+        }
+        public static bool operator <(tank p1, tank p2)
+        {
+            if ((p1.Ammunition < p2.Ammunition) && (p1.Armour < p2.Armour)) { return true; }
+            else if ((p1.Ammunition < p2.Ammunition) && (p1.Maneuverability < p2.Maneuverability)) { return true; }
+            else if ((p1.Armour < p2.Armour) && (p1.Maneuverability < p2.Maneuverability)) { return true; }
+            else { return false; }
+        }
+        public static tank operator ^(tank obj1, tank obj2)
+        {
+            return (obj1 > obj2) ? obj1 : obj2;
+        }
+    }
+
+    class t34Army
+    {
+        private T34[] army;
+        private int length;
+        public int Length { get { return army.Length; } }
+        public t34Army(int size, Random rand)
+        { 
+            
+            army = new T34[size];
+            length = army.Length;
+            for (int i = 0; i < length; i++) {
+                army[i] = new T34(rand.Next(1,10), rand.Next(1,20), rand.Next(1,5));
+            
+            }
+               
+        }
+        public T34 this[int index]
+        {
+            get
+            {
+                if (index >= 0 && index <
+                army.Length)
+                {
+                    return army[index];
+                }
+                throw new IndexOutOfRangeException();
+            }
+            set
+            {
+                army[index] = value;
+            }
+        }
+    }
+    class PArmy
+    {
+        private Pantera[] army;
+        private int length;
+        public int Length { get { return army.Length; } }
+        public PArmy(int size, Random rand)
+        {
+            army = new Pantera[size];
+            length = army.Length;
+            for (int i = 0; i < length; i++)
+            {
+                army[i] = new Pantera(rand.Next(1,10), rand.Next(1,20), rand.Next(1,5));
+
+            }
+        }
+        public Pantera this[int index]
+        {
+            get
+            {
+                if (index >= 0 && index <
+                army.Length)
+                {
+                    return army[index];
+                }
+                throw new IndexOutOfRangeException();
+            }
+            set
+            {
+                army[index] = value;
+            }
+        }
+    }
+
+    class T34 : tank
+    {
+        public T34(int i, int j, int b)
+            : base("T43", i, j,  b)
+        {
+
+        }
+    }
+    class Pantera : tank
+    {
+        public Pantera(int i, int j, int b) : base("Pantera", i, j, b) { }
+    }
+    class Game
+    {
+        private t34Army army_t32;
+        private PArmy army_pantera;
+        public Random rand = new Random();
+        public Game()
+        {
+            army_t32 = new t34Army(5, rand);
+            army_pantera = new PArmy(5, rand);
+        }
+        public void fight()
+        {
+            Console.WriteLine("Now two armies of tanks T34 and tanks Pantera start out fighting... ");
+            Console.WriteLine("Tanks that won are printed below:");
+            tank[] temp = new tank[5];
+            for (int i = 0; i < 5; i++)
+            {
+                temp[i] = army_t32[i] ^ army_pantera[i];
+                Console.WriteLine("Tank number {0} won: {1}\n", i + 1, temp[i].ToString());
+            }
+            int count34 = 0;
+            int countP = 0;
+            for (int i = 0; i < 5; i++)
+            {
+                if (temp[i].Name.CompareTo("T43") == 0) { count34++; }
+                else { countP++; }
+            }
+            Console.WriteLine("Won army {0}", count34 > countP ? "T34 tanks" : "Pantera tanks");
+        }
+    }
+
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Game tank_game = new Game();
+            tank_game.fight();
+
+            Console.ReadKey();
+        }
+    }
+
+}

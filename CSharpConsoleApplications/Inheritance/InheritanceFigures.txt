@@ -1,0 +1,232 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace drawing_figures
+{
+    interface figure_draw{
+   void draw();
+    }
+    abstract class figure: figure_draw {
+        public int X_coord { get; set; }
+        public int Y_coord { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int numberSides { get; set; }
+        public ConsoleColor color { get; set; }
+       
+        public figure(int x, int y, int w, int h,
+            int sides, ConsoleColor color) {
+
+                this.X_coord = x;
+                this.Y_coord = y;
+                this.Width = w+1;
+                this.Height = h+1;
+                this.numberSides = sides;
+                this.color = color;
+        }
+        public abstract void draw();
+       
+    }
+    class triangle : figure {
+        public triangle(int x, int y, int w, int h,
+               int sides, ConsoleColor color)
+            : base(x, y, w, h,
+            sides, color)
+        {
+        }
+        public override void draw() {
+            ConsoleColor current = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.SetCursorPosition(X_coord, Y_coord);
+            int count = 0;
+            for (int i = 0; i < Height; i++) {
+                for (int j = 0; j < Width-(Width-i); j++) {
+                    Console.SetCursorPosition((X_coord+Width)-j, Y_coord+i);
+                    Console.Write('*');
+                    
+                }
+            }
+            Console.ForegroundColor = current;                  
+                }
+            }
+        
+        
+             
+    
+     class rectangle : figure {
+       
+        public rectangle(int x, int y, int w, int h,
+            int sides, ConsoleColor color)
+            : base(x,  y,  w,  h,
+            sides, color) {
+               
+
+        }
+        
+        public override void draw() {
+            ConsoleColor current = Console.ForegroundColor;
+            Console.ForegroundColor = color;
+            Console.SetCursorPosition(X_coord, Y_coord);
+            for (int i = 0; i < Height; i++) {
+                for (int j = 0; j < Width; j++)
+                {
+                    Console.SetCursorPosition(X_coord+j, Y_coord+i);
+                    Console.Write('*');
+                
+                
+                }
+            } Console.ForegroundColor = current; 
+        }
+
+    }
+    class compound_figure : IEnumerable<figure>
+    {
+        List<figure> compound;
+       public compound_figure() {
+
+            compound = new List<figure>();
+        }
+       public void add_figure(figure obj)
+       {
+
+    compound.Add(obj);
+}
+
+
+       public IEnumerator<figure> GetEnumerator()
+        {
+            return compound.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return compound.GetEnumerator();
+        }
+    }
+    class menu {
+        compound_figure figure;
+        string header="**********************MENU***********************";
+        string footer="*******************MAKE CHOICE*******************";
+        char choice;
+        public int X_coord { get; set; }
+        public int Y_coord { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+        public int numberSides { get; set; }
+        public ConsoleColor color { get; set; }
+        public menu()
+        {
+            figure = new compound_figure();
+            Console.WriteLine(header);
+            char choice = 'x';
+            while (choice != 'q')
+            {
+                //Здесь выбор на фигуры. Нужны реализации по фигуре ромб, трапеция и тд. Вставишь 
+                //создашь классы свои от класса figure  и свою прорисовку вставишь.т.к. прорисовывать мне
+                //нужно очень много времени. Если у тебя есть уже готовое...
+
+                Console.WriteLine("Enter type of figure: <1>=>triangle, <2> rectangle, <3> rombus\n" +
+                    "<4> trapesius, <4> polygon");
+                char figure_choice = '0';
+                figure_choice = Console.ReadKey().KeyChar;
+                switch (figure_choice) { 
+                    case '1':
+                        parameters();
+                        figure.add_figure(new triangle(X_coord, Y_coord, Width, Height, numberSides, color));
+                        break;
+                    case '2':
+                         parameters();
+                        figure.add_figure(new rectangle(X_coord, Y_coord, Width, Height, numberSides, color));
+                        break;
+                    case '3':
+                        break;
+                    case '4':
+                        break;
+                    default:
+                        Console.WriteLine("There is no such figure");
+                        break;
+                }
+                Console.WriteLine("If you want to quit press <q>, else add another figure:");
+                choice = Char.ToLower(Console.ReadKey().KeyChar);
+                Console.Clear();
+            }
+
+        }
+        public void draw_menu(){
+            foreach (figure item in figure)
+            {
+                item.draw();
+
+            } Console.ReadKey();
+        
+        }
+            private void parameters(){
+            Console.WriteLine("Enter x coordinate: ");
+         try
+         {
+             this.X_coord = Int32.Parse(Console.ReadLine());
+
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message+"X coordinate will be 0");
+            }
+         Console.WriteLine("Enter y coordinate: ");
+         try
+         {
+             this.Y_coord = Int32.Parse(Console.ReadLine());
+
+         }
+         catch (Exception ex)
+         {
+
+             Console.WriteLine(ex.Message + "Y coordinate will be 0");
+         }
+         Console.WriteLine("Enter width: ");
+         try
+         {
+             this.Width = Int32.Parse(Console.ReadLine());
+
+         }
+         catch (Exception ex)
+         {
+
+             Console.WriteLine(ex.Message + "Width will be 0");
+         }
+         Console.WriteLine("Enter height: ");
+         try
+         {
+             this.Height = Int32.Parse(Console.ReadLine());
+
+         }
+         catch (Exception ex)
+         {
+
+             Console.WriteLine(ex.Message + "Height will be 0");
+         }
+         Console.WriteLine("Enter color in string: ");
+         string str=Console.ReadLine().ToLower();
+         string str2 = Char.ToUpper(str[0]) + str.Substring(1);
+        color = (ConsoleColor)Enum.Parse(typeof(ConsoleColor), str2);
+
+            
+            }
+
+    
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+         
+            menu menu = new menu();
+            menu.draw_menu();
+
+            Console.ReadKey();
+        }
+    }
+}

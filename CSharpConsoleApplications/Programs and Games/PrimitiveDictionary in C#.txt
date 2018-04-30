@@ -1,0 +1,150 @@
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Globalization;
+/*
+ Создать примитивный англо-русский и русско-ан-
+глийский словарь, содержащий пары слов — названий
+стран на русском и английском языках. Пользователь
+должен иметь возможность выбирать направление пе-
+ревода и запрашивать перевод.
+ */
+namespace ConsoleApplication6
+{
+    class dictionary
+    {
+        private Dictionary<string, string> list = null;
+
+        public dictionary()
+        {
+            list =new Dictionary<string, string>();
+            Console.WriteLine("Please, fill in the dictionary");
+            Console.WriteLine("Enter size of dictionary");
+            int size=0;
+            try 
+	{	        
+		size=Int32.Parse(Console.ReadLine());
+	}
+	catch (FormatException e)
+	{
+		
+		Console.WriteLine(e.Message);
+	}
+            string english = null ;
+            string russian=null;
+            for (int i = 0; i < size; i++) {
+                Console.WriteLine("Enter country in English:");
+                english = Console.ReadLine();
+                Console.WriteLine("Enter country in Russian:");
+                russian = Console.ReadLine();
+                list[english] = russian;
+            
+            }
+        }
+
+        public void print_sorted() {
+          List<string> dict = list.Keys.ToList();
+            dict.Sort();
+            foreach (object key in dict)
+            { Console.WriteLine("{0}: {1}", key, list[(string)key]); }
+        }
+
+        public void search_russian(string st) {
+            bool found=false;
+            /* result = String.Compare(string1, string2, new CultureInfo("en-US"), 
+                              CompareOptions.IgnoreCase);*/
+            int result = -1;
+            foreach (KeyValuePair<string, string> p in list) {
+                result = String.Compare(p.Value, st, new CultureInfo("ru-Ru"),
+                              CompareOptions.IgnoreCase);
+                if (result== 0)
+                {
+                    Console.WriteLine("{0}=>{1}", p.Value, p.Key);
+                    found = true;
+                }
+               
+            }
+            if (found == false) { 
+            
+            Console.WriteLine("There is not such word in the dictionary");}
+        
+        
+        }
+        public void search_english(string st) {
+            bool found = false;
+            int result = -1;
+            foreach (KeyValuePair<string, string> p in list)
+            {
+                result = String.Compare(p.Key, st, new CultureInfo("en-US"),
+                                CompareOptions.IgnoreCase);
+                if (result== 0)
+                {
+                    Console.WriteLine("{0}=>{1}", p.Key, p.Value);
+                    found = true;
+                }
+
+            }
+            if (found == false)
+            {
+
+                Console.WriteLine("There is not such word in the dictionary");
+            }
+        
+        
+        
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            dictionary dict = new dictionary();
+  
+            string menu=String.Format("{0,15}","Menu");
+            Console.WriteLine(menu);
+            Console.WriteLine("Enter <1> to search work in Russian\n Enter <2> to search word in English");
+            Console.WriteLine("Enter <0> to quit");
+            char choice='b';
+            string rus=null;
+            while (true)
+            {
+                choice = Console.ReadKey().KeyChar;
+                if (choice == '0') break;
+
+                switch (choice)
+                {
+                    case '1':
+                        {
+                            Console.WriteLine("Enter the word in Russian:");
+                            rus = Console.ReadLine();
+                            dict.search_russian(rus);
+                            Console.ReadKey();
+                        }
+                        break;
+                    case '2':
+                        {
+                            Console.WriteLine("Enter the word in English:");
+                            rus = Console.ReadLine();
+                            dict.search_english(rus);
+                            Console.ReadKey();
+                        }
+                        break;
+                    default: Console.WriteLine("Wrong choice"); Console.ReadKey();
+                        break;
+                }
+                Console.Clear();
+                Console.WriteLine(menu);
+                Console.WriteLine("Enter <1> to search work in Russian\n Enter <2> to search word in English");
+                Console.WriteLine("Enter <0> to quit");
+
+            }          
+
+           
+                Console.ReadKey();
+        }
+    }
+    }

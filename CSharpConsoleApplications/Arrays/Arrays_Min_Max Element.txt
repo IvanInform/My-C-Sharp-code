@@ -1,0 +1,90 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+/*1.	Объявить одномерный (5 элементов ) массив с именем A и двумерный массив (3 строки, 4 столбца) 
+ * дробных чиселс именем B. Заполнить одномерный массив А числами, введенными с клавиатуры пользователем, 
+ * а двумерный массив В случайными числами с помощью циклов. Вывести на экран значения массивов: массива А
+ *  в одну  строку, массива В – в виде матрицы. Найти в данных массивахобщиймаксимальный элемент, минимальный 
+ *  элемент, общую сумму всех элементов, общее произведение всех элементов, сумму четных элементов массива А, 
+ *  cумму нечетных столбцов массива В.  */
+namespace myFirstProject
+{
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+            double[] A = new double[5];
+            double[,] B = new double[3, 4];
+            Console.WriteLine("Enter through space 5 elements <Enter>:");
+            double first_sum = 0;
+            double first_product = 1;
+            double first_positive = 0;
+            for (int i = 0; i < A.Length; i++)
+            {
+                A[i]=Convert.ToDouble(Console.ReadLine());
+                first_sum += A[i];
+                first_product *= A[i];
+                if (A[i] % 2 == 0)
+                { first_positive += A[i]; }
+            }
+            Random myrand = new Random();
+            double second_sum = 0;
+            double second_product = 1;
+            double columns_positive = 0;
+            for (int i = 0; i < B.GetLength(0); i++)
+            {
+                for (int j = 0; j < B.GetLength(1); j++)
+                {
+                    
+                    B[i,j] = (myrand.Next(100)+myrand.NextDouble());
+                    second_sum += B[i,j];
+                    second_product *=B[i,j];
+                    if (j % 2 == 0)
+                    {
+                        columns_positive += B[i, j];
+                    }
+                    
+                }
+
+            }
+
+            foreach (double i in A)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine();
+            for (int i = 0; i < B.GetLength(0); i++)
+            {
+                for (int j = 0; j < B.GetLength(1) - 1; j++)
+                {
+                    Console.Write(B[i, j]+" ");
+                } Console.WriteLine();
+
+            }
+            /*Найти в данных массивахобщиймаксимальный элемент, минимальный 
+ *  элемент, общую сумму всех элементов, общее произведение всех элементов, сумму четных элементов массива А, 
+ *  cумму нечетных столбцов массива В. */
+
+            Array.Sort(A);
+            double second_max = 0;
+            for (int i = 0; i < B.GetLength(0); i++)
+            {
+                for (int j = 0; j < B.GetLength(1); j++)
+                {
+                    if (B[i, j] > second_max) second_max = B[i,j];
+                }
+            }
+           
+
+           double max = A[4] > second_max ? A[4] : second_max;
+            Console.WriteLine("Maximum element is: {0}\n Common sum is: {1}\n Common product: {2}\n First array positive sum: {3}", max, first_sum+second_sum,
+                first_product*second_product, first_positive);
+            Console.WriteLine("Sum of positive columns of multi B array:{0}. ", columns_positive);
+
+        }
+    }
+}

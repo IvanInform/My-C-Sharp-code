@@ -1,0 +1,44 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication3
+{/*Описать структуру RequestItem содержащую поля:
+товар; количество единиц товара.*/
+    class Program
+    {
+        public struct Product{
+        public string name;
+            public string code;
+            public double price;
+           public Product(string name,string code, double price){
+           this.name=name;
+               this.code=code;
+               this.price=price;
+           }
+        }
+        struct RequestItem {
+          public Product product;
+           public int amount;
+            public RequestItem(Product product,int amount){
+            this.product=product;
+                this.amount=amount;
+                            }
+            public void print(){
+            Console.WriteLine("Product: {0}, {1}, {2}", product.name, product.code, product.price );
+                Console.WriteLine("Ordered amount: {0}", amount );
+            
+            }
+        }
+           
+      
+        static void Main(string[] args)
+        {
+           RequestItem tv_set=new RequestItem(new Product("tv-set", "ID1001", 150.50),5 );
+           tv_set.print();
+
+        }
+    }
+}

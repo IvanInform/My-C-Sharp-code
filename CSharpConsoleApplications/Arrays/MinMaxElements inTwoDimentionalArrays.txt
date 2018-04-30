@@ -1,0 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+/*5.	ƒан двумерный массив размерностью 5х5, заполненный случайными числами 
+ * из диапазона от -100 до 100. ќпределить сумму элементов массива, расположенных 
+ * между минимальным и максимальным элементами*/
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Random myrand = new Random();
+            int[,] arr = new int[5, 5];
+            int[]temp=new int[25];
+            int d=0;
+            for (int i = 0; i < arr.GetLength(0); i++)
+            {
+                for (int j = 0; j < arr.GetLength(1); j++)
+                {
+                    arr[i, j] = myrand.Next(-100, 100);
+                    temp[d++] = arr[i, j];
+                    Console.Write(arr[i, j] + " ");
+                   
+                } Console.WriteLine();
+
+            }
+            Console.WriteLine();
+            int mymin = temp.Min();
+            int mymax = temp.Max();
+            Console.WriteLine("The min element: {0}\n The max element: {1}", mymin, mymax);
+            Console.WriteLine();
+            int first_index = Array.IndexOf(temp, mymin);
+            int last_index = Array.IndexOf(temp, mymax);
+            int minindex = first_index > last_index ? last_index : first_index;
+            int maxindex = first_index < last_index ? last_index : first_index;
+            Console.WriteLine("The elements between min and max are: ");
+            for (int i = 0; i < temp.Length; i++)
+            {
+                
+                    if (i > minindex && i < maxindex)
+                        Console.Write(temp[i] + " ");
+                
+                } 
+            Console.Read();
+            }
+                      
+        }
+    }

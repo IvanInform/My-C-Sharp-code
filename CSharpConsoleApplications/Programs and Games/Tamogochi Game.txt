@@ -1,0 +1,246 @@
+using System;
+using System.Collections.Generic;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Globalization;
+
+namespace ConsoleApplication6
+{
+    public delegate void FigureDelegate();
+    public class figure
+    {
+        private bool isalive;
+        public bool Isalive {
+            get { return isalive; }
+            set { isalive = value; }
+        }
+      public int count{get;set;}
+      public static int game_count;
+        SortedList<int, FigureDelegate> _sortedEvents =
+            new System.Collections.Generic.SortedList<int, FigureDelegate>();
+        Random _rand = new Random();
+        private  System.Timers.Timer aTimer;
+        public figure() {
+            aTimer = new System.Timers.Timer(2000);
+            aTimer.Elapsed += new System.Timers.ElapsedEventHandler(figuredo);
+            aTimer.Start();
+            end_count = 0;
+            game_count = 0;
+            isalive = true;
+        }
+        public void last_word() {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Я умер. Нажмите 'q'");
+            Console.ResetColor();
+        }
+        public event FigureDelegate figureEvent
+        {
+            add
+            {
+                 _sortedEvents.Add(count++, value);
+            }
+            remove
+            {
+                _sortedEvents.RemoveAt(_sortedEvents.IndexOfValue(value));
+
+            }
+
+        }
+       public static int end_count;
+      
+         public void figuredo(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Console.Clear();
+            int index=_rand.Next(0,_sortedEvents.Count());
+            
+            if(_sortedEvents.Count!=0){//размер словаря
+                if (end_count == 3) { aTimer.Stop(); Isalive = false; last_word(); }
+                if (figure.game_count == 0)
+                {
+                    _sortedEvents[index]();
+                    generalindex = index;
+                    figure.game_count++;
+                    if (end_count > 0) end_count=0;
+                
+                }
+                else {
+                    _sortedEvents[generalindex]();
+                    end_count++;
+                    
+                }
+            
+            }
+            
+           
+
+
+            }
+
+         public int generalindex { get; set; }
+    }
+
+    
+    public class figuresays
+    {
+        string[] catdrawing = null;
+        public figuresays()
+        {
+            catdrawing = new string[]{
+       "  **   **      ",
+       "  ******       ",
+       "  ******       ",
+       "  ******       ",
+       "    **         ",
+        " ******     **",
+       " ********   ** ",
+       "********** **  ",
+       "************   "};
+        }
+        public void saysomething()
+        {
+            int x = 20; int y = 20;
+            Console.SetCursorPosition(x, y);
+            for (int i = 0; i < catdrawing.Length; i++)
+            {
+
+                Console.WriteLine(catdrawing[i]);
+                y += 1;
+                Console.SetCursorPosition(x, y);
+
+            }
+            Console.WriteLine("Пожалуйста, поговорите со мной, мой хозяин!");
+           
+            if (figure.end_count > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                
+                Console.WriteLine("Пожалуйста, говорите, я умираю! Нажмите \"y\" ");
+                Console.ResetColor();
+            }
+        }
+    }
+
+    public class figurehungry
+    {
+        string[] catdrawing = null;
+        public figurehungry()
+        {
+            catdrawing = new string[]{
+       "  **   **      ",
+       "  ******       ",
+       "  ******       ",
+       "  ******       ",
+       "    **         ",
+        " ******     **",
+       " ********   ** ",
+       "********** **  ",
+       "************   "};
+        }
+        public void givemefood()
+        {
+            int x = 20; int y = 20;
+            Console.SetCursorPosition(x, y);
+            for (int i = 0; i < catdrawing.Length; i++)
+            {
+
+                Console.WriteLine(catdrawing[i]);
+                y += 1;
+                Console.SetCursorPosition(x, y);
+
+            }
+            Console.WriteLine("Хозяин, покормите, я голоден!");
+         
+            if (figure.end_count > 0) {
+
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.WriteLine("Быстрее кормите, я умру! Нажмите \"y\" ");
+                Console.ResetColor();
+            }
+        }
+
+    }
+    public class figurewantwalk
+    {
+        string[] catdrawing = null;
+        public figurewantwalk()
+        {
+            catdrawing = new string[]{
+       "  **   **      ",
+       "  ******       ",
+       "  ******       ",
+       "  ******       ",
+       "    **         ",
+        " ******     **",
+       " ********   ** ",
+       "********** **  ",
+       "************   "};
+        }
+        public void letswalk()
+        {
+            int x = 20; int y = 20;
+            Console.SetCursorPosition(x, y);
+            for (int i = 0; i < catdrawing.Length; i++)
+            {
+
+                Console.WriteLine(catdrawing[i]);
+                y += 1;
+                Console.SetCursorPosition(x, y);
+
+            }
+            Console.WriteLine("Хозяин, давате гулять!");
+      
+           
+            if (figure.end_count > 0) {
+
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                Console.WriteLine("Пойдемте быстрее гулять, я умираю! Нажмите \"y\"");
+                Console.ResetColor();
+            }
+        }
+    }
+    public class variable {
+        public static char var = 'b';
+    }
+    class Program
+    {
+          static void Main(string[] args)
+        {
+            figuresays say = new figuresays();
+            figurehungry hunger = new figurehungry();
+            figurewantwalk walk = new figurewantwalk();
+            figure cat = new figure();
+              cat.count=0;
+            cat.figureEvent += new FigureDelegate(say.saysomething);
+            cat.figureEvent += new FigureDelegate(hunger.givemefood);
+            cat.figureEvent += new FigureDelegate(walk.letswalk);
+
+              while (variable.var != 'q'||cat.Isalive!=false) {
+                              
+                
+                  if (variable.var != 'y') {
+                      figure.game_count++;
+                                   
+                      }
+                  else { //variable.var равно 'y';
+                 figure.game_count=0;
+                  variable.var = 'b';
+                  if (figure.end_count > 0) figure.end_count=0;
+                     
+                      Console.WriteLine("Спасибо! Продолжаю жить!");
+                  }
+            variable.var = Console.ReadKey().KeyChar;//здесь программа заканчивается
+              
+              }
+              Console.WriteLine("Животное умерло! Как не хорошо, Вы за ним не ухаживали!");
+             
+        }
+
+
+    }
+}
+ 

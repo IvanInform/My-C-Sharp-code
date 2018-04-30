@@ -1,0 +1,381 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ukraine {
+    class Kyiv
+    {
+        private string name = "Kyiv";
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        private string country = "Ukraine";
+        public string Country
+        {
+            get { return country; }
+            set { country = value; }
+        }
+
+        private ConsoleApplication4.Population percetage = new ConsoleApplication4.Population(
+            337300,2110800,2500,4900,2600,16500,2400,0,0,1900);
+        public ConsoleApplication4.Population Percetage { get { return percetage; } 
+            set { percetage = value; } }
+        private long population = 2887974;
+        public long Population
+        {
+            get { return population; }
+            set { population = value; }
+        }
+        private double area = 839;
+        public double Area
+        {
+            get;
+            set;
+        }
+        private string region = "Kiev Oblast";
+        public string Region
+        {
+            get { return region; }
+            set { region = value; }
+        }
+        private DateTime date = new DateTime(482, 1, 1);
+        private double altitude = 187;
+        public double Altitude
+        {
+            get { return altitude; }
+            set { altitude = value; }
+        }
+        private ConsoleApplication4.Temperature temperature = new ConsoleApplication4.Temperature(-4.6, 23.7, -32.9);
+        public ConsoleApplication4.Temperature Temperature
+        {
+            get { return temperature; }
+            set { temperature = value; }
+        }
+        private string language = "Ukrainian";
+        public string Lanuage { get; set; }
+        public Kyiv() { }
+        public void print() { 
+        Console.WriteLine("Name: {0}\nCountry: {1}\n Population: {2}\nRegion: {3}\nDate of Origin: {4}",
+            name,country, population,region,date.ToString());
+        Console.WriteLine("Altitude above sea:{0}\n Temperature: in January {1}, in July {2}, lowest {3}",
+            altitude,temperature.January, temperature.July, temperature.lowest);
+        Console.WriteLine("Language: {0}", language);
+        
+        }
+        public void compare_population(ConsoleApplication4.Population obj)
+        {
+            Console.WriteLine("In Kyiv Russians:{0}", (this.percetage.Russian > obj.Russian) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Ukrainians:{0}",( this.percetage.Ukrainian > obj.Ukrainian) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Tatar:{0}", (this.percetage.Tatar > obj.Tatar) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Armenian:{0}",( this.percetage.Armenian > obj.Armenian) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Azeri:{0}", (this.percetage.Azeri > obj.Azeri) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Belarusian:{0}", (this.percetage.Belarusian > obj.Belarusian) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Georgian:{0}", (this.percetage.Georgian > obj.Georgian) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Uzbek:{0}", (this.percetage.Uzbek > obj.Uzbek) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Tajik:{0}", (this.percetage.Tajik > obj.Tajik) ? "More" : "Less");
+            Console.WriteLine("In Kyiv Moldovan:{0}", (this.percetage.Moldovan > obj.Moldovan) ? "More" : "Less");
+        }
+    }
+}
+namespace Russia {
+    class Moscow
+    {
+        private string name = "Moscow";
+        public string Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+        private ConsoleApplication4.Population percetage = new ConsoleApplication4.Population(
+           9930410, 154104, 149043, 106466, 57123, 39225, 38934, 35595, 27280, 21699);
+        /*private ConsoleApplication4.Population percetage = new ConsoleApplication4.Population(
+            337300,2110800,2500,4900,2600,16500,2400,0,0,1900);*
+         */
+        public ConsoleApplication4.Population Percetage
+        {
+            get { return percetage; }
+            set { percetage = value; }
+        }
+        private string country = "Russia";
+        public string Country
+        {
+            get { return country; }
+            set { country = value; }
+        }
+        private long population = 12228685;
+        public long Population
+        {
+            get { return population; }
+            set { population = value; }
+        }
+        private string region = "Central Federal District";
+        public string Region
+        {
+            get { return region; }
+            set { region = value; }
+        }
+        private double area = 2511;
+        public double Area
+        {
+            get;
+            set;
+        }
+        private DateTime date = new DateTime(1147, 1, 1);
+        private double altitude = 130;
+        public double Altitude
+        {
+            get { return altitude; }
+            set { altitude = value; }
+        }
+        private ConsoleApplication4.Temperature temperature = new ConsoleApplication4.Temperature(-25, 26, -30);
+        public ConsoleApplication4.Temperature Temperature
+        {
+            get { return temperature; }
+            set { temperature = value; }
+        }
+        private string language = "Russian";
+        public string Lanuage { get; set; }
+     public Moscow() { }
+        public void print() { 
+        Console.WriteLine("Name: {0}\nCountry: {1}\n Population: {2}\nRegion: {3}\nDate of Origin: {4}",
+            name,country, population,region,date.ToString());
+        Console.WriteLine("Altitude above sea:{0}\n Temperature: in January {1}, in July {2}, lowest {3}",
+            altitude,temperature.January, temperature.July, temperature.lowest);
+        Console.WriteLine("Language: {0}", language);
+        
+        }
+        public void compare_population(ConsoleApplication4.Population obj){
+                      Console.WriteLine("In Moscow Russians:{0}", (this.percetage.Russian > obj.Russian) ? "More" : "Less");
+            Console.WriteLine("In Moscow Ukrainians:{0}", (this.percetage.Ukrainian > obj.Ukrainian) ? "More" : "Less");
+            Console.WriteLine("In Moscow Tatar:{0}", (this.percetage.Tatar > obj.Tatar) ? "More" : "Less");
+            Console.WriteLine("In Moscow Armenian:{0}", (this.percetage.Armenian > obj.Armenian) ? "More" : "Less");
+            Console.WriteLine("In Moscow Azeri:{0}", (this.percetage.Azeri > obj.Azeri) ? "More" : "Less");
+            Console.WriteLine("In Moscow Belarusian:{0}", (this.percetage.Belarusian > obj.Belarusian) ? "More" : "Less");
+            Console.WriteLine("In Moscow Georgian:{0}", (this.percetage.Georgian > obj.Georgian) ? "More" : "Less");
+            Console.WriteLine("In Moscow Uzbek:{0}", (this.percetage.Uzbek > obj.Uzbek) ? "More" : "Less");
+            Console.WriteLine("In Moscow Tajik:{0}", (this.percetage.Tajik > obj.Tajik) ? "More" : "Less");
+            Console.WriteLine("In Moscow Moldovan:{0}", (this.percetage.Moldovan > obj.Moldovan) ? "More" : "Less");
+        }
+    
+    }
+}
+namespace Belarus {
+    class Minsk {
+        private string name = "Minsk";
+        public string Name {
+            get { return name; }
+            set { name = value; }
+        }
+        private double area = 409.5;
+        public double Area
+        {
+            get;
+            set;
+        }
+        private string country = "Belarus";
+        public string Country {
+            get { return country; }
+            set { country = value; }
+        }
+        private long population = 1921807;
+        public long Population {
+            get { return population; }
+            set{population=value;}
+        }
+        /* public long? Russian;
+* public long? Ukrainian;
+public long? Tatar;
+public long? Armenian;
+public long? Azeri;
+public long? Belarusian;
+public long? Georgian;
+public long? Uzbek; 
+public long? Tajik; 
+public long? Moldovan;*/
+        private ConsoleApplication4.Population percetage = new ConsoleApplication4.Population(
+                  383806, 34681, 3777, 1751,1402,4017301, 0, 0, 0, 4662);
+        public ConsoleApplication4.Population Percetage { get { return percetage; }
+            set { percetage = value; }
+        }
+        private string region="Minks Region";
+        public string Region {
+            get { return region; }
+            set { region = value; }
+        }
+        private DateTime date = new DateTime(1067,1,1);
+        private double altitude = 220;
+        public double Altitude {
+            get { return altitude; }
+            set { altitude = value; }
+        }
+        private ConsoleApplication4.Temperature temperature = new ConsoleApplication4.Temperature(-4.5, 18.5, -40);
+        public ConsoleApplication4.Temperature Temperature {
+            get { return temperature; }
+            set { temperature = value; }
+        }
+        private string language = "Russo-Belarusian mixed language";
+        public string Lanuage { get; set; }
+         public Minsk() { }
+        public void print() { 
+        Console.WriteLine("Name: {0}\nCountry: {1}\n Population: {2}\nRegion: {3}\nDate of Origin: {4}",
+            name,country, population,region, date.ToString());
+        Console.WriteLine("Altitude above sea:{0}\n Temperature: in January {1}, in July {2}, lowest {3}",
+            altitude,temperature.January, temperature.July, temperature.lowest);
+        Console.WriteLine("Language: {0}", language);
+        
+        }
+        public void compare_population(ConsoleApplication4.Population obj)
+        {
+            Console.WriteLine("In Minsk Russians:{0}", (this.percetage.Russian > obj.Russian) ? "More" : "Less");
+            Console.WriteLine("In Minsk Ukrainians:{0}", (this.percetage.Ukrainian > obj.Ukrainian) ? "More" : "Less");
+            Console.WriteLine("In Minsk Tatar:{0}", (this.percetage.Tatar > obj.Tatar) ? "More" : "Less");
+            Console.WriteLine("In Minsk Armenian:{0}", (this.percetage.Armenian > obj.Armenian) ? "More" : "Less");
+            Console.WriteLine("In Minsk Azeri:{0}", (this.percetage.Azeri > obj.Azeri) ? "More" : "Less");
+            Console.WriteLine("In Minsk Belarusian:{0}", (this.percetage.Belarusian > obj.Belarusian) ? "More" : "Less");
+            Console.WriteLine("In Minsk Georgian:{0}", (this.percetage.Georgian > obj.Georgian) ? "More" : "Less");
+            Console.WriteLine("In Minsk Uzbek:{0}", (this.percetage.Uzbek > obj.Uzbek) ? "More" : "Less");
+            Console.WriteLine("In Minsk Tajik:{0}", (this.percetage.Tajik > obj.Tajik) ? "More" : "Less");
+            Console.WriteLine("In Minsk Moldovan:{0}", (this.percetage.Moldovan > obj.Moldovan) ? "More" : "Less");
+        }
+       
+    }
+}
+namespace ConsoleApplication4
+{/*Разработать приложение, в котором бы сравнивалось
+население трёх столиц из разных стран. Причём стра-
+на бы обозначалась пространством имён, а город —
+классом в данном пространстве*/
+    struct Temperature {
+        public double? January;
+        public double? July;
+        public double? lowest;
+        public Temperature(double january, double july, double lowest) {
+            this.January = january;
+            this.July = july;
+            this.lowest = lowest;
+        }
+    }
+    struct Population { 
+    public long? Russian;
+public long Ukrainian;
+public long Tatar;
+public long Armenian;
+public long Azeri;
+public long Belarusian;
+public long Georgian;
+public long Uzbek; 
+public long Tajik; 
+public long Moldovan;
+public Population(long russina, long ukrainian, long tatar, long armenian, long azeri, 
+    long belarusian, long georgian, long uzbek, long tajik, long moldoval) {
+        this.Russian = russina;
+        this.Ukrainian = ukrainian;
+        this.Tatar = tatar;
+        this.Armenian = armenian;
+        this.Azeri = azeri;
+        this.Belarusian = belarusian;
+        this.Georgian = georgian;
+        this.Uzbek = uzbek;
+        this.Tajik = tajik;
+        this.Moldovan = moldoval;
+    }    
+    }
+    class Program 
+    {
+        static void Main(string[] args)
+        {
+            Russia.Moscow moscow = new Russia.Moscow();
+            Ukraine.Kyiv kyiv = new Ukraine.Kyiv();
+            Belarus.Minsk minsk = new Belarus.Minsk();
+            Console.WriteLine("The program allows to get information about three capitals:\nKyiv, Moscow and Minks.");
+            Console.WriteLine("Press the following numbers:\n{0,-5}{1,-20}",0, "Kyiv");
+            Console.WriteLine("{0,-5}{1,-20}", 1, "Moscow");
+            Console.WriteLine("{0,-5}{1,-20}", 2, "Minks");
+            int choice = 0;
+            try
+            {
+                choice = Int32.Parse(Console.ReadLine());
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType());
+            }
+            switch (choice)
+            { 
+                case 0:
+                    kyiv.print();
+                    break;
+                case 1:
+                    moscow.print();
+                    break;
+                case 2:
+                    minsk.print();
+                    break;
+                default:
+                    Console.WriteLine("There are no such choice!");
+                    break;
+             }
+
+            Console.WriteLine("Compare population ethnic groups in any two cities:"+
+                "\nChoose first city:");
+            Console.WriteLine("Moscow: <0>, Kyiv: <1>, Minsk: <2>");
+            int city1 = 0;
+            try
+            {
+                city1 = Int32.Parse(Console.ReadLine());
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType());
+            }
+
+            Console.WriteLine("Choose second city: Moscow: <0>, Kyiv: <1>, Minsk: <2>");
+            int city2 = 0;
+            try
+            {
+                city2 = Int32.Parse(Console.ReadLine());
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType());
+            }
+          for (int i = 0; i < 3; i++)
+            {
+                if (city1==i&&city1==0 ) {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (city2 == j && city2 == 1) { moscow.compare_population(kyiv.Percetage); }
+                        if (city2 == j && city2 == 2) { moscow.compare_population(minsk.Percetage);}
+                    }
+                }
+                 if (city1==i&&city1==1){
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (city2 == j && city2 == 0) { kyiv.compare_population(moscow.Percetage); }
+                        if (city2 == j && city2 == 2) { kyiv.compare_population(minsk.Percetage);}
+                    }
+                    
+                    }
+                 if (city1==i&&city1==2){
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (city2 == j && city2 == 0) { minsk.compare_population(moscow.Percetage); }
+                        if (city2 == j && city2 == 1) { minsk.compare_population(kyiv.Percetage);}
+                    }
+                    
+                    }
+                
+                }
+            Console.ReadKey();
+            }
+
+        }
+    }
+

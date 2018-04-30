@@ -1,0 +1,408 @@
+using System;
+ using System.Globalization;
+
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+/*–азработать архитектуру классов иерархии товаров
+при разработке системы управлени€ потоками товаров дл€
+дистрибьюторской компании. ѕрописать члены классов.
+—оздать диаграммы взаимоотношений классов.
+ƒолжны быть предусмотрены разные типы товаров,
+в том числе:
+Х бытова€ хими€;
+Х продукты питани€.
+ѕредусмотреть классы управлени€ потоком товаров
+(пришло, реализовано, списано, передано).
+ */
+namespace ConsoleApplication5
+{
+    class distribution {
+       private Queue tomatoes = null;
+      private  Queue shampoo = null;
+       private Queue bread = null;
+       private ArrayList product_sold = null;
+       private ArrayList product_write_off = null;
+      private  ArrayList product_discard = null;
+
+        public distribution(){
+           this.tomatoes = new Queue();
+           this.shampoo = new Queue();
+           this.bread = new Queue();
+           this.product_sold=new ArrayList();
+            this.product_write_off=new ArrayList();
+            this.product_discard=new ArrayList();
+                    }
+        public void check_product_state(){
+        Console.WriteLine("Total products on storage: "+(tomatoes.Count+shampoo.Count+bread.Count));
+            Console.WriteLine("Total products sold: "+product_sold.Count);
+            Console.WriteLine("Total products written off: "+product_write_off.Count);
+            Console.WriteLine("Total products discarded: "+product_discard.Count);
+            Console.WriteLine("All products left in inventory: ");
+            foreach (Product item in tomatoes)
+            {
+               ( (food_beverage)item).print();
+              
+                         
+            }
+            foreach (Product item in shampoo) {
+
+                ((household_chemistry)item).print();
+            }
+            foreach (Product item in bread) { ((food_beverage)item).print(); }
+        }
+        public void discrad(){
+        while (true){ Console.WriteLine("Choose products to write-off: ");
+            Console.WriteLine("Press <1> to discard tomatoes <2> to discrad shampoo <3> to discard bread");
+               Console.WriteLine("Press <0>to exit!");
+            char choice = Console.ReadKey().KeyChar;
+        if (choice=='0'){break;}
+            int number=0;
+        switch(choice){
+            case '1':
+                Console.WriteLine("numbers to discrad?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                    if (tomatoes.Count!=0){
+                   product_discard.Add(tomatoes.Peek());
+                tomatoes.Dequeue();}
+                    else { Console.WriteLine("Tomato inventory is empty!");break;}
+
+                }
+                break;
+            case '2':
+                Console.WriteLine("numbers to discard?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                     if (shampoo.Count!=0){
+                    product_discard.Add(shampoo.Peek());
+                shampoo.Dequeue();}
+                     else {Console.WriteLine("Shampoo inventory is empty!");break; }
+                }
+                break;
+            case '3':
+                 Console.WriteLine("numbers to discard?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                     if (bread.Count!=0){
+                    product_discard.Add(bread.Peek());
+                bread.Dequeue();}
+                     else {Console.WriteLine("bread inventory is empty!");break; }
+                }
+                break;
+        default: 
+                Console.WriteLine("Wrong choice");
+                break;
+                
+                }              
+            }
+        
+        }
+        public void write_off(){
+        while (true){ Console.WriteLine("Choose products to write-off: ");
+            Console.WriteLine("Press <1> to write-off tomatoes <2> to write-off shampoo <3> to write-off bread");
+               Console.WriteLine("Press <0>to exit!");
+            char choice = Console.ReadKey().KeyChar;
+        if (choice=='0'){break;}
+            int number=0;
+        switch(choice){
+            case '1':
+                Console.WriteLine("numbers to write-off?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                    if (tomatoes.Count!=0){
+                   product_write_off.Add(tomatoes.Peek());
+                tomatoes.Dequeue();}
+                    else { Console.WriteLine("Tomato inventory is empty!");break;}
+
+                }
+                break;
+            case '2':
+                Console.WriteLine("numbers to write-off?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                     if (shampoo.Count!=0){
+                    product_write_off.Add(shampoo.Peek());
+                shampoo.Dequeue();}
+                     else {Console.WriteLine("Shampoo inventory is empty!");break; }
+                }
+                break;
+            case '3':
+                 Console.WriteLine("numbers to write-off?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                     if (bread.Count!=0){
+                    product_write_off.Add(bread.Peek());
+                bread.Dequeue();}
+                     else {Console.WriteLine("bread inventory is empty!");break; }
+                }
+                break;
+        default: 
+                Console.WriteLine("Wrong choice");
+                break;
+                
+                }              
+            }
+        
+        
+        }
+        public void sale(){
+        while (true){ Console.WriteLine("Choose products to sale to inventory: ");
+            Console.WriteLine("Press <1> to sale tomatoes <2> to sale shampoo <3> to sale bread");
+               Console.WriteLine("Press <0>to exit!");
+            char choice = Console.ReadKey().KeyChar;
+        if (choice=='0'){break;}
+            int number=0;
+        switch(choice){
+            case '1':
+                Console.WriteLine("numbers sold?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                    if (tomatoes.Count!=0){
+                    product_sold.Add(tomatoes.Peek());
+                tomatoes.Dequeue();}
+                    else {Console.WriteLine("tomato inventory is empty!");break;}
+
+                }
+                break;
+            case '2':
+                Console.WriteLine("numbers sold?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                      if (shampoo.Count!=0){
+                    product_sold.Add(shampoo.Peek());
+                shampoo.Dequeue();}
+                    else {Console.WriteLine("Shampoo inventory is empty!");break; }
+                }
+                break;
+            case '3':
+                 Console.WriteLine("numbers sold?");
+                number=Int32.Parse(Console.ReadLine());
+                for (int i=0;i<number;i++){
+                     if (bread.Count!=0){
+                    product_sold.Add(bread.Peek());
+                bread.Dequeue();}
+                     else {Console.WriteLine("bread inventory is empty!");break; }
+                }
+                break;
+        default: 
+                Console.WriteLine("Wrong choice");
+                break;
+                
+                }              
+            }
+      }
+
+        public void add_inventory(){
+            int id = 0;
+            string name = "";
+            string description = "";
+            //double price = 0D;
+            double price;
+            string input = "";
+           while (true){ Console.WriteLine("Choose products to add to inventory: ");
+            Console.WriteLine("Press <1> to add tomatoes <2> to add shampoo <3> to add bread");
+               Console.WriteLine("Press <0>to exit!");
+            char choice = Console.ReadKey().KeyChar;
+               if (choice=='0'){break;}
+              
+               //var culture = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+               //culture.NumberFormat.NumberDecimalSeparator = ".";
+                  
+               switch (choice) { 
+                case '1':
+                    /*productID, productName,productDescription, productprice, measure*/
+                    Console.WriteLine("Enter id, name, description, price");
+                  
+                    try{id=Int32.Parse(Console.ReadLine());
+                    name=Console.ReadLine();
+                    description=Console.ReadLine();
+                    while (Console.KeyAvailable)
+                    {
+                        Console.ReadKey(false);
+                    } }catch( Exception ex){
+                        Console.WriteLine("Entry format error!");}
+                     //price = Double.Parse(Console.ReadLine(), culture);
+                    input = Console.ReadLine().Trim();
+                    bool isDouble = Double.TryParse(input, out price);
+                if(!isDouble) {
+                    price = 0D;
+                            }
+                    Console.WriteLine("Entered price is : {0:00.00}", price);
+                   
+                    tomatoes.Enqueue(new food_beverage(id, name, description, price, "kg"));
+                    break;
+                case '2':
+                    Console.WriteLine("Enter id, name, description, price");
+                    try{id=Int32.Parse(Console.ReadLine());
+                    name=Console.ReadLine();
+                    description=Console.ReadLine();
+                    while (Console.KeyAvailable)
+                    {
+                        Console.ReadKey(false);
+                    } }catch( Exception ex){
+                        Console.WriteLine("Entry format error!");}
+                
+                       input = Console.ReadLine().Trim();
+                 isDouble = Double.TryParse(input, out price);
+                if(!isDouble) {
+                    price = 0D;
+                            }
+                   
+                    shampoo.Enqueue(new household_chemistry(id, name, description, price, "bottle"));
+                    
+                    break;
+                case '3':
+                    Console.WriteLine("Enter id, name, description, price");
+                    try{id=Int32.Parse(Console.ReadLine());
+                    name=Console.ReadLine();
+                    description=Console.ReadLine();
+                    while (Console.KeyAvailable)
+                    {
+                        Console.ReadKey(false);
+                    } }catch( Exception ex){Console.WriteLine("Entry format error!");}
+                 
+                       input = Console.ReadLine().Trim();
+                 isDouble = Double.TryParse(input, out price);
+                if(!isDouble) {
+                    price = 0D;
+                            }
+                   
+                    bread.Enqueue(new food_beverage(id, name, description, price, "loaf"));
+                    
+                    break;
+                default: Console.WriteLine("No such entry");
+                    break;}
+            
+             }
+        }
+
+     }
+       
+       abstract class Product  {
+            protected int productID {get;set;}
+            protected string productName { get; set; }
+            protected string productDescription { get; set; }
+            protected double productPrice;
+            protected string productmeasure { get; set; }                                
+                
+          public Product(int productID,  string productName, string productDescription,
+                   double productprice, string measure)
+            {
+                this.productID = productID;
+                this.productName = productName;
+                this.productDescription = productDescription;
+                this.productPrice = productprice;
+                this.productmeasure = measure;
+              
+            }
+        public virtual void print(){
+        string print=String.Format("ID is {0}\n Product name is {1}\nProduct description: {2}\n Product Price: {3:00.00} ",
+            productID,productName,productDescription, productPrice
+            );
+        Console.WriteLine(print);
+        }
+        public virtual void print_name() {
+            Console.WriteLine(productName);
+        }
+        public override string ToString()
+        {
+            string print = String.Format("ID is {0}\n Product name is {1}\nProduct description: {2}\n Product Price: {3:00.00} ",
+               productID, productName, productDescription, productPrice
+               );
+            return print;
+        }
+        }
+
+   class food_beverage : Product
+   {
+       protected string productCategory = "food&beverage";
+       public food_beverage(int productID, string productName, string productDescription,
+                  double productprice, string measure)
+           : base(productID, productName,
+               productDescription, productprice, measure){}
+ 
+       public override void print()
+       {
+           base.print();
+           Console.WriteLine("Product Category: {0}", productCategory);
+       }
+       public override void print_name()
+       {
+           Console.WriteLine(productName);
+       }
+       public override string ToString()
+       {
+           string print = String.Format("ID is {0}\n Product name is {1}\nProduct description: {2}\n Product Price: {3:00.00} ",
+              productID, productName, productDescription, productPrice
+              );
+           return print;
+       }
+   }
+    class household_chemistry: Product {
+        protected string productCategory = "household chemistry";
+       public household_chemistry(int productID, string productName, string productDescription,
+                  double productprice, string measure)
+           : base(productID, productName,
+               productDescription, productprice, measure){}
+ 
+       public override void print()
+       {
+           base.print();
+           Console.WriteLine("Product Category: {0}", productCategory);
+       }
+       public override void print_name()
+       {
+           Console.WriteLine(productName);
+       }
+    }
+  
+    class Class1
+    {
+        static void Main(string[] args)
+        {
+
+            distribution dist = new distribution();
+            while (true)
+            {
+                Console.WriteLine("Choose operations to perform:");
+                Console.WriteLine("Add products to inverntory, press <1>");
+                Console.WriteLine("Sale products to inverntory, press <2>");
+                Console.WriteLine("Discard products to inverntory, press <3>");
+                Console.WriteLine("Write-off products to inverntory, press <4>");
+                Console.WriteLine("Check status products to inverntory, press <5>");
+                Console.WriteLine("Press <0>to exit!");
+                Console.WriteLine();
+                char choice = Console.ReadKey().KeyChar;
+                if (choice == '0') { break; }
+                int number = 0;
+                switch (choice)
+                {
+                    case '1':
+                        dist.add_inventory();
+                        break;
+                    case '2':
+                        dist.sale();
+                        break;
+                    case '3':
+                        dist.discrad();
+                        break;
+                    case '4':
+                        dist.write_off();
+                        break;
+                    case '5':
+                        dist.check_product_state();
+                        break;
+
+                    default:
+                        Console.WriteLine("Wrong choice"); Console.WriteLine();
+                        break;
+
+                }
+            }
+            }    
+        
+        }
+    }

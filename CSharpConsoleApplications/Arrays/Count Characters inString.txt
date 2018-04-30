@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Please, enter string to count its characters: ");
+           String str= Console.ReadLine();
+           char[] arr=str.ToCharArray();
+           int count = 0;
+           for (int i = arr.GetLowerBound(0); i <= arr.GetUpperBound(0);i++ )
+           {
+               if (i>arr.GetLowerBound(0)){
+               if (Char.IsLetterOrDigit(arr[i])&&(Char.IsSeparator(arr[i-1])))
+               {
+               count++;
+               }
+               }
+           
+           }
+           Console.WriteLine("There are {0} words in sencentce", arr[0]==' '?count:count+1);
+               Console.Read();
+        }
+    }

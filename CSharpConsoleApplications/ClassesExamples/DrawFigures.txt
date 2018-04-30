@@ -1,0 +1,389 @@
+using System;
+using System.Collections;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+/*Разработать абстрактный класс «Геометрическая Фигу-
+ра» с методами «Площадь Фигуры» и «Периметр Фигуры».
+Разработать классы-наследники: Треугольник, Квадрат,
+Ромб, Прямоугольник, Параллелограмм, Трапеция, Круг,
+Эллипс. Реализовать конструкторы, которые однозначно
+определяют объекты данных классов.
+Реализовать класс «Составная Фигура», который
+может состоять из любого количества «Геометрических
+Фигур». Для данного класса определить метод нахождения
+площади фигуры. Создать диаграмму взаимоотношений
+классов.*/
+namespace ConsoleApplication5
+{
+    class compound_figure {
+        ArrayList al = null;
+        int number_figures { get; set; }
+        public compound_figure() {
+           al = new ArrayList();
+           Console.WriteLine("Please, Enter number of figures inside collection: ");
+           int number = Int32.Parse(Console.ReadLine());
+           number_figures = number;
+           int count = 1;
+           while (true) {
+               if (count> number_figures) { break; }
+               count++;
+               Console.WriteLine("Please, enter type of figure:\n<1> is ellipse <2> is trapezium" );
+               Console.WriteLine("<3> is Parallelogram <4> is rhombus <5> is circle \n <6> is rectangle <7>is triangle");
+               Console.WriteLine("Enter <0> to break.");
+               
+               int choice = 10;
+               while (true)
+               {
+                   try { choice = Int32.Parse(Console.ReadLine()); }
+                   catch (Exception ex) { Console.WriteLine("Non digit choice+ {0}", ex.GetType()); }
+                   if (choice != 10) break;
+               }
+               if (choice == 0) { break; }
+               int x, y;double w, h, b, d, angle;
+               switch(choice){
+                   case 1:
+                       Console.WriteLine("Enter diamentions: Enter x, enter y, enter width, enter height");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                       h=Double.Parse(Console.ReadLine());
+                       
+                       al.Add(new ellipse(x,y, w,h));
+                       break;
+                   case 2:
+                       Console.WriteLine("Enter diamentions: Enter x, enter y, enter base one, enter base two, enter side one, enter side two, enter angle");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                      h=Double.Parse(Console.ReadLine());
+                       b=Double.Parse(Console.ReadLine());
+                       d=Double.Parse(Console.ReadLine());
+                       angle=Double.Parse(Console.ReadLine());
+                       
+                       al.Add(new Trapezium(x,y, w,h, b, d, angle));
+                       break;
+                   case 3:
+                       Console.WriteLine("Enter diamentions: Enter x, enter y, enter base, enter side , enter angle");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                      h=Double.Parse(Console.ReadLine());
+                       angle=Double.Parse(Console.ReadLine());
+                       
+                       al.Add(new Parallelogram(x,y, w,h, angle));
+                       break;
+                   case 4:
+                        Console.WriteLine("Enter diamentions: Enter x, enter y, enter side , enter angle");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                       angle=Double.Parse(Console.ReadLine());
+                       
+                       al.Add(new rhombus(x,y, w, angle));
+                       break;
+                   case 5:
+                         Console.WriteLine("Enter diamentions: Enter x, enter y, enter dialonal");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                                            
+                       al.Add(new Circle(x,y, w));
+                       break;
+                   case 6:
+                        Console.WriteLine("Enter diamentions: Enter x, enter y, enter base, enter side ");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                      h=Double.Parse(Console.ReadLine());
+                      
+                       
+                       al.Add(new Rectangle(x,y, w,h));
+                       break;
+                   case 7:
+                        Console.WriteLine("Enter diamentions: Enter x, enter y, enter base, enter side, enter angle ");
+                       x=Int32.Parse(Console.ReadLine());
+                       y=Int32.Parse(Console.ReadLine());
+                       w=Double.Parse(Console.ReadLine());
+                      h=Double.Parse(Console.ReadLine());
+                      angle = Double.Parse(Console.ReadLine());
+                       
+                       al.Add(new Triangle(x,y, w,h, angle));
+                       break;
+                   default: 
+                       Console.WriteLine("No such entry, try again");
+                       break;        
+               
+               }
+           
+           }
+
+        }
+        public double compount_area() {
+            double area = 0;
+            foreach (figure item in al) {
+                area += item.area();
+                        }
+            return area;
+        }
+
+        public double compount_perimeter() {
+            double perimiter = 0;
+            foreach (figure item in al)
+            {
+                perimiter += item.perimeter();
+            }
+            return perimiter;
+        }
+        public void Show() { 
+        foreach(figure item in al){
+            item.Draw();
+            Console.WriteLine();
+                }
+            Console.WriteLine( String.Format("Total area of figures is {0:0.00}\n Total perimeter of figures is {1:0.00}",
+               compount_area(), compount_perimeter() )
+                );                        
+        
+        }
+    
+    }
+    abstract class  figure {
+        public int X { get;  set; }
+        public int Y { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
+        public figure(int X, int Y, double Height, double Width) {
+            this.X = X;
+            this.Y = Y;
+            this.Height = Height;
+            this.Width = Width;
+        }
+        public figure(int x, int y) {
+            this.X = x;
+            this.Y = y;
+        }
+        // Virtual method
+        public virtual void Draw()
+        {
+            Console.WriteLine("Performing base class drawing tasks");
+        }
+        public abstract double area();
+        public abstract double perimeter();
+    
+    }
+    /*Треугольник, Квадрат,
+Ромб, Прямоугольник, Параллелограмм, Трапеция, Круг,
+Эллипс.*/
+    class ellipse : figure
+    {
+        public ellipse(int x, int y, double w, double h ): base(x, y, w, h) {
+        
+        }
+        public override void Draw()
+        {
+            // Code to draw a circle...
+            Console.WriteLine("Drawing a ellipse:");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, height is {2}, width is {3}",
+              X, Y, Width, Height);
+            Console.WriteLine("Area is {0}, Perimeter is {1}", area(), perimeter());
+            base.Draw();
+        }
+        public override double area() {
+        double area=Math.PI*(Width/2)*(Height/2);
+        return area;
+        }
+        public override double perimeter() {
+            double perimeter = 2 * Math.PI * Math.Sqrt((Math.Pow(Width / 2, 2) + Math.Pow(Height / 2, 2)) / 2);
+            return perimeter;
+        }
+    }
+    class Trapezium : figure
+    {
+        private double base_two{ get;  set; }
+        private double base_one { get; set; }
+        private double side1{ get;  set; }
+        private double angle { get; set; }
+        private double side2 { get; set; }
+        private double height { get; set; }
+        public Trapezium(int x, int y, double base1, double base2, double side1, double side2,double angle):base(x, y) {
+            this.base_one = base1;
+            this.base_two = base2;
+            this.side1 = side1;
+            this.side2 = side2;
+            this.angle = angle;
+            this.height = Math.Sqrt(side1 * side1 - ((side1 * side1 - side2 * side2 + Math.Pow(base_one - base_two, 2)) /
+                2 * (base_one - base_two)) * 2);
+        }
+        public override void Draw()
+        {
+            // Code to draw a circle...
+            Console.WriteLine("Drawing a Trapezium");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, Sides:  {2}, {3}, {4}, {5}",
+              X, Y, base_one, base_two,base_one, side1,side2);
+             Console.WriteLine("Area is {0}, Perimeter is {1}", area(), perimeter());
+            base.Draw();
+        }
+        
+        public override double area()
+        {
+            double area = ((base_one+base_two )*Height)/2;
+            return area;
+        }
+        public override double perimeter()
+        {
+            double perimeter = base_one+base_two+side1+side2;
+            return perimeter;
+        }
+    }
+    class Parallelogram : figure
+    {
+        private double side_vert { get; set; }
+        private double base_side {get;set;}
+        private double angle { get; set; }
+        public Parallelogram(int x, int y,double s, double b, double angle):base(x,y) {
+            this.side_vert = s;
+            this.base_side = b;
+            this.angle = angle;
+        }
+        public override void Draw()
+        {
+            // Code to draw a circle...
+            Console.WriteLine("Drawing a Parallelogram");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, Base is {2}, Side is {3}",
+              X, Y, base_side, side_vert);
+             Console.WriteLine("Area is {0}, Perimeter is {1}", area(), perimeter());
+            base.Draw();
+
+        }
+        public override double area() {
+            double area = base_side*side_vert*Math.Sin(angle*Math.PI/180);
+            return area;
+        }
+        public override double perimeter() {
+            double perimeter = (base_side+side_vert) * 2;
+            return perimeter;
+        }
+    }
+    class rhombus : figure
+    {/*
+      area	=	 side*2sina
+      
+      */
+       private double side { get; set; }
+        private double angle { get; set; }
+        public rhombus(int x, int y, double s, double angle):base(x,y) {
+            this.side = s;
+            this.angle = angle;
+        }
+        public override void Draw()
+        {
+            // Code to draw a circle...
+            Console.WriteLine("Drawing a rhombus");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, All side are {2}",
+            X, Y, side);
+           Console.WriteLine("Area is {0}, Perimeter is {1}", area(), perimeter());
+            base.Draw();
+        }
+        public override double area() {
+            double area = side * side * Math.Sin(angle * Math.PI / 180);
+            return area;
+        }
+        public override double perimeter() {
+            double perimeter = side * 4;
+            return perimeter;
+        }
+    }
+    class Circle : figure
+    {
+        private new double Width { get; set; }
+        public Circle(int x, int y, double w) : base(x, y) {
+            this.Width = w;
+        }
+        public override void Draw()
+        {
+            // Code to draw a circle...
+            Console.WriteLine("Drawing a circle");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, Diameter is {2}",
+             X, Y, Width);
+            Console.WriteLine("Area is {0}, Perimeter is {1}", area(), perimeter());
+            base.Draw();
+        }
+        public override double area() { 
+        double area=Math.PI * (Width / 2) * (Width / 2);
+        return area;
+        }
+        public override double perimeter() {
+            double perimeter = Math.PI * Width;
+            return perimeter;
+        }
+    }
+  
+    class Rectangle : figure
+    {
+        public Rectangle(int x, int y, double w, double h):base (x,y,w,h) { 
+                }
+        public override void Draw()
+        {
+            // Code to draw a rectangle...
+            Console.WriteLine("Drawing a rectangle");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, Width is {2}, Height is {3}",
+             X, Y, Width, Height);
+            base.Draw();
+
+        }
+        public override double area() {
+            double area = Height * Width;
+            return area;        
+        }
+        public override double perimeter() {
+            double perimeter = 2*(Height) + 2*(Width);
+            return perimeter;
+        }
+    }
+  
+    class Triangle : figure
+    {
+       private double side_left { get; set; }
+        private double base_side {get;set;}
+       private double side_right { get; set; }
+       private double angle { get; set; }
+       public Triangle(int x, int y,double b, double side_left, double angle ): base (x,y) {
+           this.side_left = side_left;
+           this.base_side = b;
+           this.angle = angle;
+           /*a2 = b2 + c2 ? 2bc cosA*/
+           this.side_right = Math.Pow(side_left, 2) + Math.Pow(base_side, 2) - 2 * (side_left * base_side *
+               Math.Cos(angle * Math.PI / 180));
+          
+       }
+        public override void Draw()
+        {
+            // Code to draw a triangle...
+            Console.WriteLine("Drawing a triangle");
+            Console.WriteLine("Coordinates of top x {0}, top y {1}, Side one  is {2}, Side two is {3}, Side three is {4}",
+            X, Y, side_left, side_right, base_side);
+            base.Draw();
+        }
+        public override double area() {
+            double area = (side_left * base_side*Math.Sin(angle*Math.PI/180)) / 2;
+            return area;
+        }
+        public override double perimeter() {
+            double perimeter = side_left + base_side + side_right;
+            return perimeter;
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            compound_figure myfigure = new compound_figure();
+            myfigure.Show();
+            myfigure.compount_area();
+            Console.WriteLine();
+            myfigure.compount_perimeter();
+            Console.ReadKey();
+        }
+    }
+}
